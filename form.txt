@@ -1,0 +1,58 @@
+{{form.as_p}}
+{%csrf_token%}
+
+
+<form method='post'>
+	{{form.as_p}}
+	{%csrf_token%}
+<form>
+
+
+
+Create form.py
+=================
+class StudentFeedback(forms.Form):
+	name=forms.CharField()
+	rollNo=forms.IntegerField()
+	Email=forms.EmailField()
+	feedback=forms.CharFiled(widget=forms.Textarea)
+
+in feedback.html
+===================
+<!DOCTYPE html>
+{%load staticfiles%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel='stylesheet' href="{% static 'css/demo.css'%}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> ======>bootstarp cdn
+    <title>Title</title>
+</head>
+<body>
+	<div class='container' align='center'>
+		<form method='post'>
+			{{form.as_p}}
+			{%csrf_token%}
+			<input type='submit' class='btn btn-primary' value='Submit Feedback'>
+		</form>
+	</div>	
+</body>
+</html>
+
+
+views.py
+=========
+cleaned_data is a dictionary..this is used after clicking on submit button it will show a fresh page
+
+def feedback_view(request):
+	if request.method='GET':
+		form=forms.StudentFeedback()
+		return render(request,'testapp/feedback.html')
+	if request.method=='POST':
+		form=forms.StudentFeedback(request.POST)
+		if form.isValid():
+			print('student name:',form.cleaned_data['name'])
+			print('student rollNo:',form.cleaned_data['rollNo'])
+			print('student email:',form.cleaned_data['email'])
+			print('student feedback:',form.cleaned_data['feedback'])
+	return render(request,'testapp/feedback.html',{'form':form}
