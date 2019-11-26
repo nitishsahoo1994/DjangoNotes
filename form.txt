@@ -32,7 +32,7 @@ in feedback.html
 	<div class='container' align='center'>
 		<form method='post'>
 			{{form.as_p}}
-			{%csrf_token%}
+			{%csrf_token%}  ====>without this form is not going to be submitted
 			<input type='submit' class='btn btn-primary' value='Submit Feedback'>
 		</form>
 	</div>	
@@ -56,3 +56,76 @@ def feedback_view(request):
 			print('student email:',form.cleaned_data['email'])
 			print('student feedback:',form.cleaned_data['feedback'])
 	return render(request,'testapp/feedback.html',{'form':form}
+
+
+
+
+=======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+
+Form Validation
+---------------
+
+Explict validation by using clean method
+Implicit validation 
+
+
+
+
+in forms.py
++++++++++++++++
+
+
+from django.core import validators
+
+def start_with_d(value):
+	if value[0]!='d':
+	raise forms.ValidatonError("name should start with d")
+
+class StudentFeedback(forms.Form):
+	name=forms.Charfields(valirdators=[start_with_d])
+	rollNo=forms.IntegerField()
+	email=forms.EmailField()
+	feedback=forms.CharField(widget=forms.TextArea,validators=[validators.MaxLengthValidator(40)])
+
+
+	{Explicit valida=tion}
+	def clean_name(self):
+		inputname=self.cleaned_data['name']
+		if len(inputname)<4:
+			raise forms.ValidationError('name should not less than 4 character')
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
