@@ -1,0 +1,176 @@
+Models.py
+==========
+class Moviemodel(models.Model):
+	rdate=models.DateField()
+	name=models.CharFiled(max_length=64)
+	hero=models.CharFiled(max_length=64)
+	heroine=models.CharFiled(max_length=64)
+	rating=models.FloatField()
+
+
+
+
+
+
+in forms.py
+===========
+class MovieForm(form.ModelForm):
+	class Meta:
+		model=Moviemodel
+		fields='__all__'
+
+==================
+|| then migrate ||
+||================
+
+
+
+in views.py
+==============
+
+
+def index_view(request):
+	return render(request,'testapp/index.html')
+
+
+in index.html
+
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+
+	<link rel='stylesheet' href="{%static 'css/demo.css'%}">
+    <title>Title</title>
+</head>
+<body>
+ <div class='container' align='center'>
+	<div class="jumbotron">
+  		<h1 class="display-4">My movie Info</h1>
+  		<p>Contonie...</p>
+  		<a class="btn btn-primary btn-lg" href="#" role="button">Add movie</a>
+		<a class="btn btn-primary btn-lg" href="#" role="button">Movie List</a>
+	</div>
+ </div>
+</body>
+</html>
+
+
+
+
+in view.py
+============
+def add_movie(request):
+	if request.method=='GET':
+		form=forms.MovieForm
+	
+	if request.method=='POST':
+		form=forms.MovieForm(request.POST)
+		if form.isValid():
+			form.save(commit=True)
+		return index_view(request)
+
+	return render(request,'testapp/addmovie.html')
+
+
+
+addmovie.html
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+
+	<link rel='stylesheet' href="{%static 'css/demo.css'%}">
+    <title>Title</title>
+</head>
+<body>
+	<form method='post'>
+		{{form.as_p}}
+		{%csrf_token%}
+		<input type='submit' class='btn btn-primary' value='Add Movie'>
+	</form>
+</body>
+</html>
+
+
+
+view.py
+======
+def list_movie(request):
+	movie_list=Moviemodel.objects.all()
+	return render(request,'testapp/listmovie.html')
+
+
+
+listmovie.html
+==================
+|| IMP  ||
+||	||
+===========
+
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+
+	<link rel='stylesheet' href="{%static 'css/demo.css'%}">
+    <title>Title</title>
+</head>
+<body>
+	{% in movie_list%}
+
+		<table style="width:100%">
+  			<tr>
+    				<th>Release Date</th>
+				<th>Name</th>
+    				<th>Hero</th>
+    				<th>Heroine</th>
+				<th>rating</th>
+  			</tr>
+		{%for movie in movie_list%}
+			<tr>
+    				<td>{{movie.rdate}}</td>
+    				<td>{{movie.name}}</td>
+   				 <td>{{movie.hero}}</td>
+				<td>{movie.herione}</td>
+				<td>{movie.rating}</td>
+  			</tr>
+		{%endfor%}
+	{%endif%}
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

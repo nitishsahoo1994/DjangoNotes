@@ -88,7 +88,7 @@ class StudentFeedback(forms.Form):
 	feedback=forms.CharField(widget=forms.TextArea,validators=[validators.MaxLengthValidator(40)])
 
 
-	{Explicit valida=tion}
+	{Explicit validation}
 	def clean_name(self):
 		inputname=self.cleaned_data['name']
 		if len(inputname)<4:
@@ -101,11 +101,38 @@ class StudentFeedback(forms.Form):
 
 
 
+Multiple validation
+============================
+
+class StudentFeedback(forms.Form):
+	name=forms.CharField()
+	rollmo=forms.IntegerField()
+	email=forms.EmailFiled()
+	password=forms.CharFiled()
+	rpassword=forms.CharField()
+	feedback=forms.CharField(widget=forms.TextArea)
+
+	def clean(self):
+		cleaned_data=super().clean()
+		inputpassword=clenaed_data['password']
+		inputrpassword=clenaed_data['rpassword']
+	
+		if inputpassword!=inputrpassword:
+			raise fomrs.ValidationError("password not matched")
 
 
 
 
 
+
+with models.py
+===============
+================
+go to models.py
+
+
+class StudentModel(models.Model):
+	name=models.CharFiled(max_length=64)
 
 
 
