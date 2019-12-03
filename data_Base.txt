@@ -1,0 +1,2 @@
+to communicate with oracle: cx_Oracle
+to communicate with mySql: pymysql

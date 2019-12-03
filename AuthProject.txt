@@ -1,0 +1,16 @@
+in signup_view(request):
+	
+
+	user=form.save()
+	user.se             =====>password save in encrypted form
+
+
+
+in settings.py
+================
+used to use our own algorithim
+
+
+PASSWORD_HASHERS=[
+	'django.contrib.auth.hashers.Argon2PasswordHasher'
+]

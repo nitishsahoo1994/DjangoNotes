@@ -1,0 +1,30 @@
+*cookies
+*Django session management
+
+
+
+Cookies
+=============
+problem with cookies
+*serurity problem
+*cookies data only string type only
+
+		client=======req==========>server
+			<=======resp+cookies=======
+			=========req2+cookies======>	
+
+
+
+
+def count_view(request):
+	count=int(request.COOKIES.get("count",0))
+	new_count=count+1
+	response=render(request,'restapp/count.html',{'new_count':new_count})
+	response.set_cookie('count',new_count)
+
+
+temporary cookies and persistent cookies
+==========================================
+if we r not setting max age saved inside browser cache
+
+otherwise save in client file_system
