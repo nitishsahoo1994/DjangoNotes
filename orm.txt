@@ -62,4 +62,4 @@ Employee.objects.filter(~Q(esal_range=(12000,16000)))
 
 
 
-liju
+liju sahoo
