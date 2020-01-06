@@ -1,5 +1,3 @@
-https://www.edureka.co/blog/interview-questions/python-interview-questions/
-
 Django ORM
 =============
 emp_list=Employee.objects.all()  ==>return type query set  (select * from employess)
@@ -23,7 +21,7 @@ Employee.objects.get(ename__iexact=14) ===>case insensitive
 
 contains
 ============
-Employe.objects.filter(ename__icontains='john')
+Employee.objects.filter(ename__icontains='john')
 
 
 in
@@ -64,4 +62,123 @@ Employee.objects.filter(~Q(esal_range=(12000,16000)))
 
 
 
-liju sahoo
+Union
+===========
+qs1=Employee.objects.filter(esal__lt=15000)
+qs2=Employee.objects.filter(ename__endswith='j')
+
+employees=qs1.union(qs2)
+
+
+How to select only particular columns:
+======================================
+Employee.objects.all().values_list('ename','esal')
+Employee.objects.all().values('ename','esal')
+Employee.objects.all().only('ename','esal') ==> id also select 
+
+
+
+
+Aggregate Functions
+=====================
+Avg
+Sum
+Min
+Max
+Count
+
+from django.db.models import Avg,Sum,Min,Max,Count
+
+avg=Employee.objects.all().aggregate(Avg('esal'))
+sum=Employee.objects.all().aggregate(Sum('esal'))
+max=Employee.objects.all().aggregate(Max('esal'))
+min=Employee.objects.all().aggregate(Min('esal'))
+count=Employee.objects.all().aggregate(Max('esal'))
+
+CRUD operation
+=============
+create
+Employee.objects.create(eno=200,ename='Sunny',esal=25785,eaddr='mumbai')
+
+
+e1=Employee(eno=200,ename='Sunny',esal=25785,eaddr='mumbai')
+e2=Employee(eno=300,ename='Funny',esal=25785,eaddr='Delhi')
+e3=Employee(eno=400,ename='Chunny',esal=25785,eaddr='Talcher')
+
+Employee.objects.bulk_create([e1,e2,e3])
+
+
+
+Delete
+-------
+e=Employee.objects.get(id=45)
+e.delete()
+
+
+
+delete multiple
+
+qs=Employee.objects.filter(esal__gt=15000)
+qs.delete()
+
+
+
+Update
+=====
+e=Employee.objects.get(eno=2265)
+e.ename="Nitish"  
+e.save()              =====>updation complete
+
+
+
+
+
+Order QuerySet
+===============
+Employee.objects.all().order__by('esal')  ==>asscending order
+Employee.objects.all().order__by('-esal') ==>descending order
+
+Employee.objects.all().order__by('-esal') [1]  ====>second highest
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
